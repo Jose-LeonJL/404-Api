@@ -1,0 +1,30 @@
+{
+  "name": "404-api",
+  "version": "1.0.0",
+  "description": "Api rest para el proyecto de programacion",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jose-LeonJL/404-Api.git"
+  },
+  "author": "Jose-LeonJL, David el Debugueador, JoseMunoz02, Snga17",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jose-LeonJL/404-Api/issues"
+  },
+  "homepage": "https://github.com/Jose-LeonJL/404-Api#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^14.2.0",
+    "express": "^4.17.2",
+    "helmet": "^5.0.1",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.15"
+  }
+}
