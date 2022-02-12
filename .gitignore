@@ -1,5 +1,5 @@
 # Logs
-src/Database/*.json
+src/DataBase/*.json
 logs
 *.log
 npm-debug.log*
