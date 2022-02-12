@@ -1,5 +1,5 @@
 # Logs
-src/DataBase/*.json
+Credentials.json
 logs
 *.log
 npm-debug.log*
