@@ -6,12 +6,12 @@ const {
 
 // Controllador para la obtencion de los datos
 const GetController = async (req, res) => {
-    const Users = await Firebase.ReadUsuarios();
+    const Users = await Firebase.ReadInventario();
     res.json({
         status: 'success',
         code: 200,
         data: {
-            users: Users.docs.map(user => {
+            products: Users.docs.map(user => {
                 let Data = user.data()
                 return {
                     Data,
@@ -26,30 +26,22 @@ const CreateController = async (req, res) => {
     try {
         console.log('body : ', req.body)
         const {
-            Correo,
             Codigo,
             Nombre,
-            Identidad,
-            Sueldo,
-            Telefono,
-            Nick,
-            Tipo,
-            Contraseña
+            Precio,
+            Stock,
+            Categoria,
+            Marca
         } = req.body;
-        const salt = await bcrypt.genSalt(10);
-        const PassHash = await bcrypt.hash(Contraseña, salt);
         const NewUser = {
-            'Correo':Correo,
-            'Codigo': Codigo,
-            'Nombre': Nombre,
-            'Identidad': Identidad,
-            'Sueldo': Sueldo,
-            'Telefono': Telefono,
-            'Nick': Nick,
-            'Tipo': Tipo,
-            'Contraseña': PassHash
+            Codigo,
+            Nombre,
+            Precio,
+            Stock,
+            Categoria,
+            Marca
         }
-        const Insercion = await Firebase.WriteUsuarios(NewUser);
+        const Insercion = await Firebase.WriteInventario(NewUser);
         if (Insercion.success) {
             res.json({
                 status: 'success',
@@ -63,7 +55,7 @@ const CreateController = async (req, res) => {
                 status: 'error',
                 code: 400,
                 data: {
-                    error: Insercion.message
+                    error: 'undefined'
                 }
             });
         }
@@ -86,7 +78,7 @@ const UpdateController = async (req, res) => {
             data
         } = req.body;
         console.log(id)
-        const collection = await Firebase.UpdateUsuario(id, data)
+        const collection = await Firebase.UpdateInventario(id, data)
         if (collection.success) {
             res.json({
                 status: 'success',
@@ -119,11 +111,9 @@ const UpdateController = async (req, res) => {
 const DeleteController = async (req, res) => {
     try {
         const {
-            id,
-            data
+            id
         } = req.body;
-        const Response = await Firebase.DeleteUsuario(id,data)
-        console.log(Response)
+        const Response = await Firebase.DeleteInventario(id, req.body)
         if (Response.success) {
             res.json({
                 status: 'success',
@@ -137,7 +127,7 @@ const DeleteController = async (req, res) => {
                 status: 'error',
                 code: 400,
                 data: {
-                    error: 'can not delete'
+                    error: Response.message
                 }
             });
         }
