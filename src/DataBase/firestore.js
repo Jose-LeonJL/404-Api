@@ -1,5 +1,5 @@
 //Conexion a la base de Datos en Firebase
-require('dotenv').config() 
+require('dotenv').config()
 const admin = require('firebase-admin');
 const Account = require("./Credentials.json");
 const app = admin.initializeApp({
@@ -25,36 +25,61 @@ async function WriteUsuarios(CodigoUsuario = '', NombreCompletoUsuario = '', Num
         return {
             success: true,
             id: Escribir.id,
-            message:'Exito!'
+            message: 'Exito!'
         };
     } else {
         return {
             success: false,
-            id: null, 
-            message:'Can not write'
+            id: null,
+            message: 'Can not write'
         };
     }
 }
 async function WriteUsuarios(Data) {
-    const Check = await db.collection('Usuarios').where('Correo','==',Data.Correo).get();
-    if (Check.docs.length) return {success:false, id:null, message:'El usuario ya existe'};
+    const Check = await db.collection('Usuarios').where('Correo', '==', Data.Correo).get();
+    if (Check.docs.length) return {
+        success: false,
+        id: null,
+        message: 'El usuario ya existe'
+    };
     const Escribir = await db.collection('Usuarios').add(Data);
     if (Escribir.id) {
         return {
             success: true,
             id: Escribir.id,
-            message:'Exito!'
+            message: 'Exito!'
         };
     } else {
         return {
             success: false,
-            id: null, 
-            message:'Can not write'
+            id: null,
+            message: 'Can not write'
         };
     }
 }
 async function ReadUsuarios() {
     return await db.collection('Usuarios').get();
+}
+const GetIdUsuario = async (Correo='') => {
+    try {
+        const collection = await db.collection('Usuarios').where('Correo','==',Correo).get();
+        if(!collection.docs.length) return {
+            success: false,
+            id: null,
+            message:'sin ususarios'
+        }
+        return {
+            success: true,
+            id: collection.docs[0].id,
+            data:collection.docs[0].data()
+        };
+    } catch (error) {
+        return {
+            success: false,
+            id: null,
+            message:error.toString()
+        };
+    }
 }
 async function UpdateUsuario(id = '', data) {
     try {
@@ -76,24 +101,24 @@ async function DeleteUsuario(id = '', data) {
     try {
         const collection = await db.collection('Usuarios').doc(id).get();
         if (collection.exists) {
-            
+
             const Res = await collection.ref.update(data);
             return {
                 success: true,
                 id: id
             };
-        }else{
+        } else {
             return {
                 success: false,
                 id: id,
-                message:'no existe'    
+                message: 'no existe'
             };
         }
     } catch (error) {
         return {
             success: false,
             id: null,
-            message:error.toString()
+            message: error.toString()
         };
     }
 
@@ -108,13 +133,13 @@ async function WriteVentas(Data) {
         return {
             success: true,
             id: Escribir.id,
-            message:'Exito'
+            message: 'Exito'
         };
     } else {
         return {
             success: false,
             id: null,
-            message:'Can not write'
+            message: 'Can not write'
         };
     }
 }
@@ -124,44 +149,48 @@ async function ReadVentas() {
 async function UpdateVentas(id = '', data) {
     try {
         const collection = await db.collection('Ventas').doc(id).get();
-        if(!collection.exists) return {success: false,id: null,message:'El registro no existe'}
+        if (!collection.exists) return {
+            success: false,
+            id: null,
+            message: 'El registro no existe'
+        }
         const Res = await collection.ref.update(data);
         return {
             success: true,
             id: id,
-            message:'Exito'
+            message: 'Exito'
         };
     } catch (error) {
         return {
             success: false,
             id: null,
-            message:error.toString()
+            message: error.toString()
         };
     }
 
 }
-async function DeleteVentas(id = '',data) {
+async function DeleteVentas(id = '', data) {
     try {
         const collection = await db.collection('Ventas').doc(id).get();
         if (collection.exists) {
-            
+
             const Res = await collection.ref.update(data);
             return {
                 success: true,
                 id: id
             };
-        }else{
+        } else {
             return {
                 success: false,
                 id: id,
-                message:'no existe'    
+                message: 'no existe'
             };
         }
     } catch (error) {
         return {
             success: false,
             id: null,
-            message:error.toString()
+            message: error.toString()
         };
     }
 
@@ -201,29 +230,29 @@ async function UpdateInventario(id = '', data) {
     }
 
 }
-async function DeleteInventario(id = '',data) {
+async function DeleteInventario(id = '', data) {
     try {
         const collection = await db.collection('Inventario').doc(id).get();
         if (collection.exists) {
-            
+
             const Res = await collection.ref.update(data.data);
             return {
                 success: true,
                 id: id,
-                message:'Exito'
+                message: 'Exito'
             };
-        }else{
+        } else {
             return {
                 success: false,
                 id: id,
-                message:'El registro no existe'    
+                message: 'El registro no existe'
             };
         }
     } catch (error) {
         return {
             success: false,
             id: null,
-            message:error.toString()
+            message: error.toString()
         };
     }
 
@@ -232,37 +261,89 @@ async function DeleteInventario(id = '',data) {
 // Login
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const Login = async (Data) => {
+    let Pass = false;
+    let User = false;
     try {
         const collection = await db.collection('Usuarios');
-        const Busqueda = await collection.where('Correo','==',Data.Correo).get();
-        
-        let Pass=false;
-        let User=false;
+        const Busqueda = await collection.where('Correo', '==', Data.Correo).get();
+
         if (Busqueda.docs.length > 0) {
-            User=true;
-            Pass = await bcrypt.compare(Data.Contraseña,Busqueda.docs[0].data().Contraseña);
+            User = true;
+            Pass = await bcrypt.compare(Data.Contraseña, Busqueda.docs[0].data().Contraseña);
         }
         let Tipo = Busqueda.docs[0].data().Tipo;
         return {
             success: true,
-            data:{
+            data: {
                 User,
                 Pass,
-                Tipo   
+                Tipo
             }
         }
     } catch (error) {
         return {
             success: false,
-            data:{
+            data: {
                 User,
                 Pass
             }
         };
     }
 }
+const CodeWrite = async (Data) => {
+    const collections = await db.collection('CodeVerification').add(Data)
+    if (collections.id) {
+        return {
+            success: true,
+            id: collections.id
+        };
+    } else {
+        return {
+            success: false,
+            id: null
+        };
+    }
+}
+const CodeCheck = async (Data) => {
+    const collections = await db.collection('CodeVerification').where('Code', '==', Data.code).where('Correo', '==', Data.correo).get();
+    if (collections.docs.length > 0) {
+        return {
+            success: true,
+            id: collections.docs[0].id
+        };
+    } else {
+        return {
+            success: false,
+            id: null
+        };
+    }
+}
+const CodeDelte = async (id = '') => {
+    try {
+        const collection = await db.collection('CodeVerification').doc(id).get();
+        if (collection.exists) {
 
-
+            const Res = await collection.ref.delete();
+            return {
+                success: true,
+                id: id,
+                message: 'Exito'
+            };
+        } else {
+            return {
+                success: false,
+                id: id,
+                message: 'El registro no existe'
+            };
+        }
+    } catch (error) {
+        return {
+            success: false,
+            id: null,
+            message: error.toString()
+        };
+    }
+}
 
 //Necesario
 module.exports = {
@@ -278,5 +359,9 @@ module.exports = {
     ReadInventario,
     UpdateInventario,
     DeleteInventario,
-    Login
+    Login,
+    CodeCheck,
+    CodeWrite,
+    CodeDelte,
+    GetIdUsuario
 }

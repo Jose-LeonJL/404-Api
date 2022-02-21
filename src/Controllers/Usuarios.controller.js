@@ -24,7 +24,6 @@ const GetController = async (req, res) => {
 
 const CreateController = async (req, res) => {
     try {
-        console.log('body : ', req.body)
         const {
             Correo,
             Codigo,
@@ -85,7 +84,6 @@ const UpdateController = async (req, res) => {
             id,
             data
         } = req.body;
-        console.log(id)
         const collection = await Firebase.UpdateUsuario(id, data)
         if (collection.success) {
             res.json({
@@ -123,7 +121,6 @@ const DeleteController = async (req, res) => {
             data
         } = req.body;
         const Response = await Firebase.DeleteUsuario(id,data)
-        console.log(Response)
         if (Response.success) {
             res.json({
                 status: 'success',

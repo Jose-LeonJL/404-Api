@@ -24,7 +24,6 @@ const GetController = async (req, res) => {
 
 const CreateController = async (req, res) => {
     try {
-        console.log('body : ', req.body)
         const {
             Codigo,
             Fecha,
@@ -79,7 +78,6 @@ const UpdateController = async (req, res) => {
             id,
             data
         } = req.body;
-        console.log(id)
         const collection = await Firebase.UpdateVentas(id, data)
         if (collection.success) {
             res.json({

@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 // Controllador para la obtencion de los datos
 const PostController = async (req, res) => {
     const Login = await Firebase.Login(req.body);
-    console.log(Login)
     if (Login.success) {
         if (Login.data.User && !Login.data.Pass) {
             res.json({
