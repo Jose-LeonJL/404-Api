@@ -14,7 +14,32 @@ async function CreateLogin(Correo, Contraseña){
     return response.data;//se retorna direnctamente la data, porque ya es un objeto javascript
 
 }
+//funcion verificacion de usuario
+async function RecuperarLogin(Correo){
+    let data = {Correo};
+    let response = await https({
+       method:'POST',
+       url:'https://api.dvstudio.dev/Login/Recovery',
+       data:data,
+       headers:{'Content-Type': 'application/json; charset=utf-8'} 
+    });
+    return response.data;
+}
+
+//funcion Update Contraseña
+async function UpdateContraseña(id,correo,contraseña){
+    let data={id,correo,contraseña};
+    let response = await https({
+        method:'PUT',
+        url:'https://api.dvstudio.dev/Login/Recovery',
+        data:data,
+        headers:{'Content-Type': 'application/json; charset=utf-8'} 
+    });
+    return response.data
+}
+
+//Funcion get Validar Codigo Recuperacion
 
 
 //Exportacion de los metodos Login
-module.exports = {CreateLogin}
+module.exports = {CreateLogin,RecuperarLogin,UpdateContraseña}
