@@ -1,13 +1,14 @@
-const { TestWatcher } = require('jest')
-const {suma,CreateLogin} = require('./Login')
+const {TestWatcher} = require('jest')
+const {CreateLogin} = require('./Login')
 
-
-test('Devuelve una suma de 2+2',()=> {
-   
-    expect(suma(2,2)).toBe(4);
+//test crear login con un usuario correcto
+test('Usando un usuario valido devuelve un estado success', async () => {
+    let result = await CreateLogin('danielfunezflh@gmail.com', 'Password1');
+    expect(result.status).toBe("success")
 })
 
-test('Devuelve un token',()=>{
-    console.log(CreateLogin('danielfunezflh@gmail.com','Password1'));
-    expect(CreateLogin('danielfunezflh@gmail.com','Password1')).toBe(undefined)
+//test crear login con un usuario incorrecto
+test('Devuelve un token', async () => {
+    let result = await CreateLogin('danielfunezflhs@gmail.com', 'Password1');
+    expect(result.status).toBe("error")
 })

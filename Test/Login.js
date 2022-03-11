@@ -1,79 +1,20 @@
 // peticion http a htps://api.dvstudio.dev
-const assert = require("assert");
-const { response, json } = require("express");
-const { JsonWebTokenError } = require("jsonwebtoken");
-const https = require("request");
+const https = require("axios").default;
+const BaseURL = 'https://api.dvstudio.dev/Login';
 
-
- function CreateLogin(Correo,Contraseña){
-   let data={Correo,Contraseña};
-    let resultado=null;
-    https({
-       url:'https://api.dvstudio.dev/Login',
-       method:'POST',
-       json:true,
-       body:data
-   },function(error,response,body){
-    if(error){
-        return null;
-    }
-    //console.log(response.body);
-        resultado= response.body;
-   });
-   console.log(response.body);
-   return JSON.parse(resultado);
-}
-async function xd(Correo, Contraseña){
-   let data={Correo,Contraseña};
-   let resultado=null;
-    await https({
-        url:'https://api.dvstudio.dev/Login',
+//funcion creadora de login
+async function CreateLogin(Correo, Contraseña){
+    let data = {Correo, Contraseña};    //body de la request
+    let response = await https({
         method:'POST',
-        json:true,
-        body:data
-    },function(error,response,body){
-     if(error){
-         return null;
-     }
-     //console.log(response.body);
-         resultado= response.body;
+        url:BaseURL,
+        data:data,
+        headers: {'Content-Type': 'application/json; charset=utf-8'}//opcion necesarioa para post,put,delete
     });
-    return resultado;
-}
-// console.log(CreateLogin('danielfunezflh@gmail.com','Password1'));
-xd('danielfunezflh@gmail.com','Password1')
-.then((res)=>{
-    console.log(res)
-})
-.catch()
-console.log();
-module.exports={CreateLogin};
+    return response.data;//se retorna direnctamente la data, porque ya es un objeto javascript
 
-
-
-
-
-
-
-
-
-
-
-
-const suma = (num1=0, num2=0)=>{
-    return (num1 + num2);
 }
 
-const testsuma =()=>{
-    if(suma(2,2) == 4){
-        console.log("✅")
-    }else{
-        console.log("❌")
-    }
-}
 
-testsuma();
-
-
-
-module.exports={suma};
+//Exportacion de los metodos Login
+module.exports = {CreateLogin}

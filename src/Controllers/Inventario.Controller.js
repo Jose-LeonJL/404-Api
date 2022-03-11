@@ -12,7 +12,7 @@ const GetController = async (req, res) => {
         code: 200,
         data: {
             products: Users.docs.map(user => {
-                let Data = user.data()
+                let Data = user.data();
                 return {
                     Data,
                     id: user.id
