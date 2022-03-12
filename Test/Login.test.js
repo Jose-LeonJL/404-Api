@@ -32,9 +32,7 @@ test('Usando un usuario invalido devuelve un correo de verificacion', async()=>{
 
 //test de cambio de contraseña success
 test('Verificacion de un cambio de contraseña',async()=>{
-    console.log(Id);
     let result=await UpdateContraseña(Id,'danielfunezflh@gmail.com','Password1')
-    console.log(result);
     expect(result.status).toBe("success") 
 })
 
