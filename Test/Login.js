@@ -14,7 +14,7 @@ async function CreateLogin(Correo, Contraseña){
     return response.data;//se retorna direnctamente la data, porque ya es un objeto javascript
 
 }
-//funcion verificacion de usuario
+//funcion Post de usuario
 async function RecuperarLogin(Correo){
     let data = {Correo};
     let response = await https({
