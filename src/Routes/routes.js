@@ -21,13 +21,13 @@ Routes.get('/', (req, res) => {
 Routes.get('/Usuarios', VerifyToken, Usuario.GetUsers);
 Routes.post('/Usuarios', VerifyToken, Usuario.CreateUser);
 Routes.put('/Usuarios', VerifyToken, Usuario.UpdateUser);
-Routes.delete('/Usuarios', VerifyToken, Usuario.DeleteUser);
+Routes.delete('/Usuarios/:id', VerifyToken, Usuario.DeleteUser);
 
 // Rutas Ventas
 Routes.get('/Ventas', VerifyToken, Ventas.GetSales);
 Routes.post('/Ventas', VerifyToken, Ventas.CreateSale);
 Routes.put('/Ventas', VerifyToken, Ventas.UpdateSale);
-Routes.delete('/Ventas', VerifyToken, Ventas.DeleteSale);
+Routes.delete('/Ventas/:id', VerifyToken, Ventas.DeleteSale);
 
 // Rutas Inventarios
 Routes.get('/Inventario', VerifyToken, Inventario.GetProducts);
