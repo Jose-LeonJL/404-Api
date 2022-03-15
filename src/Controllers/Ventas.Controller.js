@@ -110,10 +110,7 @@ const UpdateController = async (req, res) => {
 
 const DeleteController = async (req, res) => {
     try {
-        const {
-            id,
-            data
-        } = req.body;
+        const id= req.params.id;
         const Response = await Firebase.DeleteVentas(id,data)
         if (Response.success) {
             res.json({

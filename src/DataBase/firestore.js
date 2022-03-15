@@ -97,12 +97,12 @@ async function UpdateUsuario(id = '', data) {
     }
 
 }
-async function DeleteUsuario(id = '', data) {
+async function DeleteUsuario(id = '') {
     try {
         const collection = await db.collection('Usuarios').doc(id).get();
         if (collection.exists) {
 
-            const Res = await collection.ref.update(data);
+            const Res = await collection.ref.update({"Activo":false});
             return {
                 success: true,
                 id: id
@@ -169,12 +169,12 @@ async function UpdateVentas(id = '', data) {
     }
 
 }
-async function DeleteVentas(id = '', data) {
+async function DeleteVentas(id = '') {
     try {
         const collection = await db.collection('Ventas').doc(id).get();
         if (collection.exists) {
 
-            const Res = await collection.ref.update(data);
+            const Res = await collection.ref.update({"Activo":false});
             return {
                 success: true,
                 id: id
@@ -230,12 +230,12 @@ async function UpdateInventario(id = '', data) {
     }
 
 }
-async function DeleteInventario(id = '', data) {
+async function DeleteInventario(id = '') {
     try {
         const collection = await db.collection('Inventario').doc(id).get();
         if (collection.exists) {
 
-            const Res = await collection.ref.update(data.data);
+            const Res = await collection.ref.update({Activo:false});
             return {
                 success: true,
                 id: id,

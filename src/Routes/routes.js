@@ -33,7 +33,7 @@ Routes.delete('/Ventas', VerifyToken, Ventas.DeleteSale);
 Routes.get('/Inventario', VerifyToken, Inventario.GetProducts);
 Routes.post('/Inventario', VerifyToken, Inventario.CreateProduct);
 Routes.put('/Inventario', VerifyToken, Inventario.UpdateProduct);
-Routes.delete('/Inventario', VerifyToken, Inventario.DeleteProduct);
+Routes.delete('/Inventario/:id', VerifyToken, Inventario.DeleteProduct);
 
 //Rutas Login
 Routes.post('/Login', Login.CreateLogin);

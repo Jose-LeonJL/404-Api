@@ -116,11 +116,8 @@ const UpdateController = async (req, res) => {
 
 const DeleteController = async (req, res) => {
     try {
-        const {
-            id,
-            data
-        } = req.body;
-        const Response = await Firebase.DeleteUsuario(id,data)
+        const id=req.params.id;
+        const Response = await Firebase.DeleteUsuario(id)
         if (Response.success) {
             res.json({
                 status: 'success',
